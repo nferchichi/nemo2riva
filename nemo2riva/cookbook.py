@@ -77,7 +77,7 @@ def export_model(model, cfg, args, artifacts, metadata):
                 with autocast, torch.no_grad(), torch.inference_mode():
                     logging.info(f"Exporting model {model.__class__.__name__} with config={cfg}")
                     model = model.to(device=args.device)
-                    model.freeze()
+                    #model.freeze()
                     in_args = {}
                     if args.max_batch is not None:
                         in_args["max_batch"] = args.max_batch
