@@ -61,6 +61,7 @@ def export_model(model, cfg, args, artifacts, metadata):
     with tempfile.TemporaryDirectory() as tmpdir:
         export_filename = cfg.export_file
         export_file = os.path.join(tmpdir, export_filename)
+        OUTPUT_DIR = "nemo2riva_export"
 
         if cfg.export_format in ["ONNX", "TS"]:
             # Export the model, get the descriptions.
@@ -93,6 +94,10 @@ def export_model(model, cfg, args, artifacts, metadata):
                         verbose=bool(args.verbose),
                     )
                     del model
+                logging.info(
+                        f"Moving {export_filename} to {OUTPUT_DIR}/{export_filename}"
+                    )
+                shutil.copy(export_file, OUTPUT_DIR)
                 if cfg.export_format == 'ONNX':
                     o_list = os.listdir(tmpdir)
                     save_as_external_data = len(o_list) > 1
